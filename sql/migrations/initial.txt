@@ -1,0 +1,9 @@
+Description: Initial schema
+Depends:
+Apply: |
+  CREATE TABLE "user"
+  ( id        SERIAL PRIMARY KEY
+  , user_name TEXT NOT NULL
+  );
+Revert: |
+  DROP TABLE "user";

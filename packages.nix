@@ -2,7 +2,7 @@
 , servant, servant-server, stdenv, tagged, text, wai, warp
 }:
 mkDerivation {
-  pname = "pipeline";
+  pname = "haskell-web-app-freer";
   version = "0.1.0.0";
   src = ./.;
   isLibrary = true;

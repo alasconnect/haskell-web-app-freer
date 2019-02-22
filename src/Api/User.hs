@@ -9,24 +9,24 @@ import Servant
 --------------------------------------------------------------------------------
 import Domain.Task
 import Domain.User
-import Models.Task (Task)
-import Models.User (User, UserId)
+import Models.Task
+import Models.User
 import Types
 --------------------------------------------------------------------------------
 
 type GetUsersApi
-  = Get '[JSON] [User]
+  = Get '[JSON] [UserR]
 
 type GetUserApi
   =  Capture "user_id" UserId
-  :> Get '[JSON] (Maybe User)
+  :> Get '[JSON] (Maybe UserR)
 
 type CreateUserApi
-  =  ReqBody '[JSON] User
-  :> Post '[JSON] User
+  =  ReqBody '[JSON] UserR
+  :> Post '[JSON] UserR
 
 type UpdateUserApi
-  =  ReqBody '[JSON] User
+  =  ReqBody '[JSON] UserR
   :> Put '[JSON] NoContent
 
 type DeleteUserApi
@@ -35,12 +35,12 @@ type DeleteUserApi
 
 type GetUserTasksApi
   =  Capture "user_id" UserId
-  :> Get '[JSON] [Task]
+  :> Get '[JSON] [TaskR]
 
 type GetUserAndTasksApi
   =  "tasks"
   :> Capture "user_id" UserId
-  :> Get '[JSON] (Maybe User, [Task])
+  :> Get '[JSON] (Maybe UserR, [TaskR])
 
 type UserApi
   =  "api"
@@ -56,13 +56,13 @@ type UserApi
      )
 
 data ApiUser r where
-  UsersGet :: ApiUser [User]
-  UserGet :: UserId -> ApiUser (Maybe User)
-  UserCreate :: User -> ApiUser User
-  UserUpdate :: User -> ApiUser NoContent
+  UsersGet :: ApiUser [UserR]
+  UserGet :: UserId -> ApiUser (Maybe UserR)
+  UserCreate :: UserR -> ApiUser UserR
+  UserUpdate :: UserR -> ApiUser NoContent
   UserDelete :: UserId -> ApiUser NoContent
-  UserTasks :: UserId -> ApiUser [Task]
-  UserAndTasks :: UserId -> ApiUser (Maybe User, [Task])
+  UserTasks :: UserId -> ApiUser [TaskR]
+  UserAndTasks :: UserId -> ApiUser (Maybe UserR, [TaskR])
 
 makeEffect ''ApiUser
 

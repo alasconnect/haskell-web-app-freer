@@ -10,12 +10,12 @@ import Types
 --------------------------------------------------------------------------------
 
 data DatabaseTask r where
-  GetTasks :: DatabaseTask [Task]
-  GetTask :: TaskId -> DatabaseTask (Maybe Task)
-  CreateTask :: Task -> DatabaseTask Task
-  UpdateTask :: Task -> DatabaseTask ()
+  GetTasks :: DatabaseTask [TaskR]
+  GetTask :: TaskId -> DatabaseTask (Maybe TaskR)
+  CreateTask :: TaskR -> DatabaseTask TaskR
+  UpdateTask :: TaskR -> DatabaseTask ()
   DeleteTask :: TaskId -> DatabaseTask ()
-  GetUserTasks :: UserId -> DatabaseTask [Task]
+  GetUserTasks :: UserId -> DatabaseTask [TaskR]
 
 makeEffect ''DatabaseTask
 

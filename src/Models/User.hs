@@ -1,10 +1,9 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE TypeSynonymInstances #-}
-
 module Models.User where
 
 --------------------------------------------------------------------------------
+import Data.Aeson hiding (fieldLabelModifier)
+import qualified Data.Aeson.TH as ATH (fieldLabelModifier, deriveJSON)
+import Control.Lens
 import Data.Aeson
 import Data.Tagged (Tagged(..), untag)
 import Data.Text (Text, pack)
@@ -16,6 +15,9 @@ import Servant.API
 data UserIdTag
 type UserId = Tagged UserIdTag Int
 
+mkUserId :: Int -> UserId
+mkUserId = Tagged
+
 instance ToHttpApiData UserId where
   toUrlPiece = pack . show . untag
 instance FromHttpApiData UserId where
@@ -24,17 +26,17 @@ instance FromHttpApiData UserId where
       Right (v, _) -> Right . mkUserId . fromInteger $ v
       Left e       -> Left . pack $ e
 
-mkUserId :: Int -> UserId
-mkUserId = Tagged
+data UserNameTag
+type UserName = Tagged UserNameTag Text
 
-data User
-  = User
-  { userId :: UserId
-  , name   :: Text
+mkUserName :: Text -> UserName
+mkUserName = Tagged
+
+data UserR
+  = UserR
+  { _userId       :: UserId
+  , _userUserName :: UserName
   } deriving (Generic, Show)
 
-instance ToJSON User
-instance FromJSON User
-
-mkUser :: Text -> User
-mkUser = User 0
+makeLenses ''UserR
+ATH.deriveJSON defaultOptions { ATH.fieldLabelModifier = drop 6 } ''UserR

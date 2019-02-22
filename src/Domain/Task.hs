@@ -5,18 +5,18 @@ import Control.Monad.Freer
 import Control.Monad.Freer.TH
 --------------------------------------------------------------------------------
 import qualified Database.Task as T
-import Models.Task (Task, TaskId)
+import Models.Task (TaskR, TaskId)
 import Models.User (UserId)
 import Types
 --------------------------------------------------------------------------------
 
 data DomainTask r where
-  GetTasks :: DomainTask [Task]
-  GetTask :: TaskId -> DomainTask (Maybe Task)
-  CreateTask :: Task -> DomainTask Task
-  UpdateTask :: Task -> DomainTask ()
+  GetTasks :: DomainTask [TaskR]
+  GetTask :: TaskId -> DomainTask (Maybe TaskR)
+  CreateTask :: TaskR -> DomainTask TaskR
+  UpdateTask :: TaskR -> DomainTask ()
   DeleteTask :: TaskId -> DomainTask ()
-  GetUserTasks :: UserId -> DomainTask [Task]
+  GetUserTasks :: UserId -> DomainTask [TaskR]
 
 makeEffect ''DomainTask
 

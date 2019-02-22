@@ -1,10 +1,19 @@
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE FunctionalDependencies #-}
+
 module Types where
 
 --------------------------------------------------------------------------------
+import Control.Lens
+import Data.Pool (Pool)
+import Database.PostgreSQL.Simple (Connection)
+--------------------------------------------------------------------------------
+import Util.Database.Pool
 --------------------------------------------------------------------------------
 
-data FakeConn = FakeConn
 data AppContext
   = AppContext
-  { conn :: FakeConn -- in a real system this would be a pool
+  { appContextPool :: Pool Connection
   }
+
+makeLensesWith camelCaseFields ''AppContext

@@ -8,23 +8,23 @@ import Data.Proxy
 import Servant
 --------------------------------------------------------------------------------
 import Domain.Task
-import Models.Task (Task, TaskId)
+import Models.Task (TaskR, TaskId)
 import Types
 --------------------------------------------------------------------------------
 
 type GetTasksApi
-  = Get '[JSON] [Task]
+  = Get '[JSON] [TaskR]
 
 type GetTaskApi
   =  Capture "task_id" TaskId
-  :> Get '[JSON] (Maybe Task)
+  :> Get '[JSON] (Maybe TaskR)
 
 type CreateTaskApi
-  =  ReqBody '[JSON] Task
-  :> Post '[JSON] Task
+  =  ReqBody '[JSON] TaskR
+  :> Post '[JSON] TaskR
 
 type UpdateTaskApi
-  =  ReqBody '[JSON] Task
+  =  ReqBody '[JSON] TaskR
   :> Put '[JSON] NoContent
 
 type DeleteTaskApi
@@ -43,10 +43,10 @@ type TaskApi
      )
 
 data ApiTask r where
-  TasksGet :: ApiTask [Task]
-  TaskGet :: TaskId -> ApiTask (Maybe Task)
-  TaskCreate :: Task -> ApiTask Task
-  TaskUpdate :: Task -> ApiTask NoContent
+  TasksGet :: ApiTask [TaskR]
+  TaskGet :: TaskId -> ApiTask (Maybe TaskR)
+  TaskCreate :: TaskR -> ApiTask TaskR
+  TaskUpdate :: TaskR -> ApiTask NoContent
   TaskDelete :: TaskId -> ApiTask NoContent
 
 makeEffect ''ApiTask
